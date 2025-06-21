@@ -19,17 +19,45 @@ pnpm add @mkusaka/mcp-server-slack-notify
 
 ## Configuration
 
-The server requires a Slack Bot User OAuth Token. You need to:
+### Creating a Slack App
 
-1. Create a Slack app at https://api.slack.com/apps
-2. Add OAuth scopes: `chat:write` (required) and `auth:test` (for connection testing)
-3. Install the app to your workspace
-4. Get the Bot User OAuth Token (starts with `xoxb-`)
+1. **Create a new Slack app**
+   - Go to https://api.slack.com/apps
+   - Click "Create New App"
+   - Choose "From scratch"
+   - Enter your app name (e.g., "MCP Notification Bot")
+   - Select your workspace
+   - Click "Create App"
+
+2. **Configure OAuth scopes**
+   - In your app settings, navigate to "OAuth & Permissions" in the sidebar
+   - Scroll down to "Scopes" section
+   - Under "Bot Token Scopes", click "Add an OAuth Scope"
+   - Add the following scope:
+     - `chat:write` - Required for sending messages
+
+3. **Install the app to your workspace**
+   - Stay on the "OAuth & Permissions" page
+   - Click "Install to Workspace" at the top
+   - Review the permissions and click "Allow"
+   - You'll be redirected back to the OAuth & Permissions page
+
+4. **Get your Bot Token**
+   - After installation, you'll see a "Bot User OAuth Token" on the OAuth & Permissions page
+   - It starts with `xoxb-`
+   - Copy this token - you'll need it for the `SLACK_BOT_TOKEN` environment variable
+
+5. **Invite the bot to channels**
+   - In Slack, go to the channel where you want to send notifications
+   - Type `/invite @YourBotName` (replace with your bot's name)
+   - Or click the channel name → "Integrations" tab → "Add apps" → Select your bot
+
+### Environment Variables
 
 Set the following environment variables:
 
-- `SLACK_BOT_TOKEN` (required): Your Slack Bot User OAuth Token
-- `SLACK_DEFAULT_CHANNEL` (optional): Default channel for notifications
+- `SLACK_BOT_TOKEN` (required): Your Bot User OAuth Token from step 4
+- `SLACK_DEFAULT_CHANNEL` (optional): Default channel for notifications (e.g., `#general`)
 
 ## Usage with Claude Desktop
 
