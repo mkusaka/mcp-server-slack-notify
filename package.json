@@ -1,6 +1,6 @@
 {
   "name": "@mkusaka/mcp-server-slack-notify",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "MCP server for sending notifications to Slack using OAuth bot tokens",
   "license": "MIT",
   "author": "mkusaka (https://github.com/mkusaka)",
