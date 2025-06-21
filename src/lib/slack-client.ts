@@ -9,9 +9,8 @@ export interface SlackClientConfig {
 
 export interface SlackMessage {
   channel: string;
-  title: string;
+  title?: string;
   description: string;
-  timestamp?: string;
 }
 
 export class SlackClient {
@@ -35,40 +34,44 @@ export class SlackClient {
         title: message.title,
       });
 
-      const blocks: KnownBlock[] = [
-        {
+      const blocks: KnownBlock[] = [];
+
+      if (message.title) {
+        blocks.push({
           type: "header",
           text: {
             type: "plain_text",
             text: message.title,
             emoji: true,
           },
-        },
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: message.description,
-          },
-        },
-      ];
-
-      if (message.timestamp) {
+        });
         blocks.push({
-          type: "context",
-          elements: [
-            {
-              type: "mrkdwn",
-              text: `_Sent at ${message.timestamp}_`,
-            },
-          ],
+          type: "divider",
         });
       }
+
+      blocks.push({
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: message.description,
+        },
+      });
+
+      blocks.push({
+        type: "context",
+        elements: [
+          {
+            type: "mrkdwn",
+            text: `Sent via MCP Server at <!date^${Math.floor(Date.now() / 1000)}^{date_short_pretty} {time}|${new Date().toISOString()}>`,
+          },
+        ],
+      });
 
       const result = await this.client.chat.postMessage({
         channel,
         blocks,
-        text: message.title, // Fallback for notifications
+        text: message.title || message.description, // Fallback for notifications
       });
 
       logger.info("Message sent successfully", { ts: result.ts });

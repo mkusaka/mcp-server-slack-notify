@@ -39,33 +39,32 @@ describe("SlackClient", () => {
       expect(result).toBe("1234567890.123456");
       expect(mockWebClient.mockPostMessage).toHaveBeenCalledWith({
         channel: "#test-channel",
-        blocks: [
-          {
+        blocks: expect.arrayContaining([
+          expect.objectContaining({
             type: "header",
-            text: {
-              type: "plain_text",
+            text: expect.objectContaining({
               text: "Test Title",
-              emoji: true,
-            },
-          },
-          {
+            }),
+          }),
+          expect.objectContaining({
+            type: "divider",
+          }),
+          expect.objectContaining({
             type: "section",
-            text: {
-              type: "mrkdwn",
+            text: expect.objectContaining({
               text: "Test description with *markdown*",
-            },
-          },
-        ],
+            }),
+          }),
+        ]),
         text: "Test Title",
       });
     });
 
-    it("should include timestamp when provided", async () => {
+    it("should include context with timestamp", async () => {
       const message = {
         channel: "#test-channel",
         title: "Test Title",
         description: "Test description",
-        timestamp: "2024-01-15 10:30:00 UTC",
       };
 
       await slackClient.sendMessage(message);
@@ -75,12 +74,12 @@ describe("SlackClient", () => {
           blocks: expect.arrayContaining([
             expect.objectContaining({
               type: "context",
-              elements: [
-                {
+              elements: expect.arrayContaining([
+                expect.objectContaining({
                   type: "mrkdwn",
-                  text: "_Sent at 2024-01-15 10:30:00 UTC_",
-                },
-              ],
+                  text: expect.stringContaining("Sent via MCP Server"),
+                }),
+              ]),
             }),
           ]),
         }),

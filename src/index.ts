@@ -34,7 +34,6 @@ This MCP server enables sending notifications to Slack channels using a bot toke
 
 Capabilities:
 1. Send messages with a title and description to any Slack channel
-2. Optionally include timestamps in messages
 
 Authentication:
 - Requires a Slack Bot User OAuth Token set via SLACK_BOT_TOKEN environment variable
@@ -65,39 +64,20 @@ const initializeServer = (options: ServerOptions) => {
         .describe(
           "The Slack channel to send the message to (e.g., #general or C1234567890). If not provided, uses the default channel.",
         ),
-      title: z.string().min(1).describe("The title of the notification"),
+      title: z.string().optional().describe("The title of the notification"),
       description: z
         .string()
         .min(1)
         .describe("The description/body of the notification"),
-      include_timestamp: z
-        .boolean()
-        .optional()
-        .default(true)
-        .describe("Whether to include a timestamp in the message"),
     },
-    async ({ channel, title, description, include_timestamp }) => {
+    async ({ channel, title, description }) => {
       try {
         logger.info("Sending Slack notification", { channel, title });
-
-        const timestamp = include_timestamp
-          ? new Date().toLocaleString("en-US", {
-              timeZone: "UTC",
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-              hour: "2-digit",
-              minute: "2-digit",
-              second: "2-digit",
-              hour12: false,
-            }) + " UTC"
-          : undefined;
 
         const messageId = await slackClient.sendMessage({
           channel: channel || "",
           title,
           description,
-          timestamp,
         });
 
         return {

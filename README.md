@@ -6,7 +6,8 @@ MCP server for sending notifications to Slack using OAuth bot tokens.
 
 - Send formatted messages to Slack channels with title and description
 - Support for Slack's markdown formatting
-- Optional timestamp inclusion in messages
+- Beautiful message formatting with header, divider, and context
+- Automatic timestamp with Slack's date formatting
 - TypeScript support with full type safety
 
 ## Installation
@@ -58,9 +59,8 @@ Sends a notification to a Slack channel.
 
 Parameters:
 - `channel` (optional): The Slack channel (e.g., #general or C1234567890)
-- `title` (required): The notification title
+- `title` (optional): The notification title (if provided, displays with header formatting)
 - `description` (required): The notification body (supports Slack markdown)
-- `include_timestamp` (optional): Whether to include timestamp (default: true)
 
 ## Development
 
@@ -76,6 +76,9 @@ pnpm build
 
 # Run in development mode
 pnpm start
+
+# Debug with MCP Inspector
+pnpm debug
 ```
 
 ## Testing
