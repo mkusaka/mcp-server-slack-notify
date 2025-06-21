@@ -1,0 +1,54 @@
+{
+  "name": "@mkusaka/mcp-server-slack-notify",
+  "version": "0.0.1",
+  "description": "MCP server for sending notifications to Slack using OAuth bot tokens",
+  "license": "MIT",
+  "author": "mkusaka (https://github.com/mkusaka)",
+  "homepage": "https://github.com/mkusaka/mcp-server-slack-notify",
+  "bugs": "https://github.com/mkusaka/mcp-server-slack-notify/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mkusaka/mcp-server-slack-notify.git"
+  },
+  "type": "module",
+  "bin": {
+    "mcp-server-slack-notify": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && tsc && shx chmod +x dist/*.js",
+    "prepare": "pnpm run build",
+    "watch": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "start": "tsx src/index.ts",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"**/*.{ts,json}\"",
+    "fix": "prettier --write \"**/*.{ts,json}\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.2",
+    "prettier": "^3.5.3",
+    "shx": "^0.3.4",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.2"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.13.0",
+    "@slack/web-api": "^7.9.3",
+    "commander": "^13.1.0",
+    "winston": "^3.17.0",
+    "zod": "^3.24.3"
+  }
+}
