@@ -46,15 +46,6 @@ describe("SlackClient - No Title", () => {
               text: "Just a description without a title",
             }),
           }),
-          expect.objectContaining({
-            type: "context",
-            elements: expect.arrayContaining([
-              expect.objectContaining({
-                type: "mrkdwn",
-                text: expect.stringContaining("Sent via MCP Server"),
-              }),
-            ]),
-          }),
         ]),
       }),
     );

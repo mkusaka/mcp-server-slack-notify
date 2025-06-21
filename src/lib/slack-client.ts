@@ -58,16 +58,6 @@ export class SlackClient {
         },
       });
 
-      blocks.push({
-        type: "context",
-        elements: [
-          {
-            type: "mrkdwn",
-            text: `Sent via MCP Server at <!date^${Math.floor(Date.now() / 1000)}^{date_short_pretty} {time}|${new Date().toISOString()}>`,
-          },
-        ],
-      });
-
       const result = await this.client.chat.postMessage({
         channel,
         blocks,

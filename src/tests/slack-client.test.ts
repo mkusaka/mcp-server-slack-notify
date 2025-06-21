@@ -60,7 +60,7 @@ describe("SlackClient", () => {
       });
     });
 
-    it("should include context with timestamp", async () => {
+    it("should create blocks with header and divider when title is provided", async () => {
       const message = {
         channel: "#test-channel",
         title: "Test Title",
@@ -73,13 +73,13 @@ describe("SlackClient", () => {
         expect.objectContaining({
           blocks: expect.arrayContaining([
             expect.objectContaining({
-              type: "context",
-              elements: expect.arrayContaining([
-                expect.objectContaining({
-                  type: "mrkdwn",
-                  text: expect.stringContaining("Sent via MCP Server"),
-                }),
-              ]),
+              type: "header",
+            }),
+            expect.objectContaining({
+              type: "divider",
+            }),
+            expect.objectContaining({
+              type: "section",
             }),
           ]),
         }),

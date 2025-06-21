@@ -43,6 +43,22 @@ Usage:
 - Use send_slack_notification to send a message to a specific channel
 - The title and description support Slack's markdown formatting
 - Channel can be specified as #channel-name or by channel ID
+
+Formatting:
+- To mention users: <@U1234567890> (use the user's ID)
+- To mention channels: <#C1234567890> (use the channel's ID)
+- To mention @here: <!here>
+- To mention @channel: <!channel>
+- To mention user groups: <!subteam^S1234567890> (use the subteam's ID)
+
+Text formatting:
+- Bold: *bold text*
+- Italic: _italic text_
+- Strikethrough: ~strikethrough text~
+- Code: \`inline code\`
+- Code block: \`\`\`code block\`\`\`
+- Quote: > quoted text
+- Link: <https://example.com|Link text>
 `;
 
 const initializeServer = (options: ServerOptions) => {
