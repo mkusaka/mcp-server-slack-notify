@@ -102,6 +102,76 @@ describe("SlackClient", () => {
       );
     });
 
+    it("should add mentions to the beginning of the message", async () => {
+      const message = {
+        channel: "#test-channel",
+        title: "Test Title",
+        description: "Test description",
+        mention: "U1234567890",
+      };
+
+      await slackClient.sendMessage(message);
+
+      expect(mockWebClient.mockPostMessage).toHaveBeenCalledWith(
+        expect.objectContaining({
+          blocks: expect.arrayContaining([
+            expect.objectContaining({
+              type: "section",
+              text: expect.objectContaining({
+                text: "<@U1234567890> Test description",
+              }),
+            }),
+          ]),
+        }),
+      );
+    });
+
+    it("should handle multiple mentions separated by commas", async () => {
+      const message = {
+        channel: "#test-channel",
+        description: "Important message",
+        mention: "U1234567890,U0987654321,U1111111111",
+      };
+
+      await slackClient.sendMessage(message);
+
+      expect(mockWebClient.mockPostMessage).toHaveBeenCalledWith(
+        expect.objectContaining({
+          blocks: expect.arrayContaining([
+            expect.objectContaining({
+              type: "section",
+              text: expect.objectContaining({
+                text: "<@U1234567890> <@U0987654321> <@U1111111111> Important message",
+              }),
+            }),
+          ]),
+        }),
+      );
+    });
+
+    it("should handle mentions with spaces around commas", async () => {
+      const message = {
+        channel: "#test-channel",
+        description: "Message with mentions",
+        mention: "U1234567890, U0987654321 , U1111111111",
+      };
+
+      await slackClient.sendMessage(message);
+
+      expect(mockWebClient.mockPostMessage).toHaveBeenCalledWith(
+        expect.objectContaining({
+          blocks: expect.arrayContaining([
+            expect.objectContaining({
+              type: "section",
+              text: expect.objectContaining({
+                text: "<@U1234567890> <@U0987654321> <@U1111111111> Message with mentions",
+              }),
+            }),
+          ]),
+        }),
+      );
+    });
+
     it("should throw error when no channel specified and no default", async () => {
       slackClient = new SlackClient({
         token: "xoxb-test-token",

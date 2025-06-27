@@ -85,15 +85,22 @@ const initializeServer = (options: ServerOptions) => {
         .string()
         .min(1)
         .describe("The description/body of the notification"),
+      mention: z
+        .string()
+        .optional()
+        .describe(
+          "User ID(s) to mention in the message. Can be a single user ID (e.g., U1234567890) or multiple IDs separated by commas (e.g., U1234567890,U0987654321)",
+        ),
     },
-    async ({ channel, title, description }) => {
+    async ({ channel, title, description, mention }) => {
       try {
-        logger.info("Sending Slack notification", { channel, title });
+        logger.info("Sending Slack notification", { channel, title, mention });
 
         const messageId = await slackClient.sendMessage({
           channel: channel || "",
           title,
           description,
+          mention,
         });
 
         return {

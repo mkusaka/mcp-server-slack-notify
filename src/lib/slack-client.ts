@@ -11,6 +11,7 @@ export interface SlackMessage {
   channel: string;
   title?: string;
   description: string;
+  mention?: string;
 }
 
 export class SlackClient {
@@ -32,7 +33,16 @@ export class SlackClient {
       logger.info("Sending message to Slack", {
         channel,
         title: message.title,
+        mention: message.mention,
       });
+
+      // Process mentions
+      let messageText = message.description;
+      if (message.mention) {
+        const userIds = message.mention.split(',').map(id => id.trim());
+        const mentions = userIds.map(id => `<@${id}>`).join(' ');
+        messageText = `${mentions} ${message.description}`;
+      }
 
       const blocks: KnownBlock[] = [];
 
@@ -54,7 +64,7 @@ export class SlackClient {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: message.description,
+          text: messageText,
         },
       });
 
