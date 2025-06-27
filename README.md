@@ -69,7 +69,7 @@ Add to your Claude Desktop configuration:
   "mcpServers": {
     "slack-notify": {
       "command": "npx",
-      "args": ["@mkusaka/mcp-server-slack-notify"],
+      "args": ["-y", "@mkusaka/mcp-server-slack-notify@latest"],
       "env": {
         "SLACK_BOT_TOKEN": "xoxb-your-token-here",
         "SLACK_DEFAULT_CHANNEL": "#general"
@@ -84,7 +84,7 @@ Add to your Claude Desktop configuration:
 You can add this MCP server to Claude Code using the following command:
 
 ```bash
-claude mcp add slack-notify -e SLACK_BOT_TOKEN=xoxb-your-token-here -e SLACK_DEFAULT_CHANNEL=#general -- npx @mkusaka/mcp-server-slack-notify
+claude mcp add slack-notify -e SLACK_BOT_TOKEN=xoxb-your-token-here -e SLACK_DEFAULT_CHANNEL=#general -- npx -y @mkusaka/mcp-server-slack-notify@latest
 ```
 
 Or if you have the package installed globally:
@@ -100,7 +100,7 @@ claude mcp add slack-notify -e SLACK_BOT_TOKEN=xoxb-your-token-here -e SLACK_DEF
 To add with user scope (available across all projects):
 
 ```bash
-claude mcp add --scope user slack-notify -e SLACK_BOT_TOKEN=xoxb-your-token-here -e SLACK_DEFAULT_CHANNEL=#general -- npx @mkusaka/mcp-server-slack-notify
+claude mcp add --scope user slack-notify -e SLACK_BOT_TOKEN=xoxb-your-token-here -e SLACK_DEFAULT_CHANNEL=#general -- npx -y @mkusaka/mcp-server-slack-notify@latest
 ```
 
 ## Available Tools
