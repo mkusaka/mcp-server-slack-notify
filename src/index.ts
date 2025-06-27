@@ -28,6 +28,7 @@ const slackClient = new SlackClient(slackConfig);
 
 logger.info("MCP Slack Notification Server started");
 logger.info(`Default channel: ${slackConfig.defaultChannel || "(not set)"}`);
+logger.info(`Default mentions: ${slackConfig.mentions || "(not set)"}`);
 
 const instructions = `
 This MCP server enables sending notifications to Slack channels using a bot token.

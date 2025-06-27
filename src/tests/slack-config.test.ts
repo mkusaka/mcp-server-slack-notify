@@ -22,6 +22,7 @@ describe("SlackConfig", () => {
     expect(config).toEqual({
       token: "xoxb-test-token-123",
       defaultChannel: "#general",
+      mentions: undefined,
     });
   });
 
@@ -34,6 +35,21 @@ describe("SlackConfig", () => {
     expect(config).toEqual({
       token: "xoxb-test-token-123",
       defaultChannel: undefined,
+      mentions: undefined,
+    });
+  });
+
+  it("should parse valid configuration with all options", () => {
+    process.env.SLACK_BOT_TOKEN = "xoxb-test-token-123";
+    process.env.SLACK_DEFAULT_CHANNEL = "#general";
+    process.env.SLACK_MENTIONS = "U1234567890,U0987654321";
+
+    const config = getSlackConfig();
+
+    expect(config).toEqual({
+      token: "xoxb-test-token-123",
+      defaultChannel: "#general",
+      mentions: "U1234567890,U0987654321",
     });
   });
 

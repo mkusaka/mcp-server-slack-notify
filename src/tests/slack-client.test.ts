@@ -172,6 +172,63 @@ describe("SlackClient", () => {
       );
     });
 
+    it("should use default mentions from config when no mention parameter provided", async () => {
+      slackClient = new SlackClient({
+        token: "xoxb-test-token",
+        defaultChannel: "#general",
+        mentions: "U1234567890,U0987654321",
+      });
+
+      const message = {
+        channel: "#test-channel",
+        description: "Important message",
+      };
+
+      await slackClient.sendMessage(message);
+
+      expect(mockWebClient.mockPostMessage).toHaveBeenCalledWith(
+        expect.objectContaining({
+          blocks: expect.arrayContaining([
+            expect.objectContaining({
+              type: "section",
+              text: expect.objectContaining({
+                text: "<@U1234567890> <@U0987654321> Important message",
+              }),
+            }),
+          ]),
+        }),
+      );
+    });
+
+    it("should override default mentions when mention parameter is provided", async () => {
+      slackClient = new SlackClient({
+        token: "xoxb-test-token",
+        defaultChannel: "#general",
+        mentions: "U1234567890,U0987654321",
+      });
+
+      const message = {
+        channel: "#test-channel",
+        description: "Important message",
+        mention: "U9999999999",
+      };
+
+      await slackClient.sendMessage(message);
+
+      expect(mockWebClient.mockPostMessage).toHaveBeenCalledWith(
+        expect.objectContaining({
+          blocks: expect.arrayContaining([
+            expect.objectContaining({
+              type: "section",
+              text: expect.objectContaining({
+                text: "<@U9999999999> Important message",
+              }),
+            }),
+          ]),
+        }),
+      );
+    });
+
     it("should throw error when no channel specified and no default", async () => {
       slackClient = new SlackClient({
         token: "xoxb-test-token",

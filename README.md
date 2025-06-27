@@ -59,6 +59,7 @@ Set the following environment variables:
 
 - `SLACK_BOT_TOKEN` (required): Your Bot User OAuth Token from step 4
 - `SLACK_DEFAULT_CHANNEL` (optional): Default channel for notifications (e.g., `#general`)
+- `SLACK_MENTIONS` (optional): Default user IDs to mention in all messages (e.g., `U1234567890,U0987654321`)
 
 ## Usage with Claude Desktop
 
@@ -72,7 +73,8 @@ Add to your Claude Desktop configuration:
       "args": ["-y", "@mkusaka/mcp-server-slack-notify@latest"],
       "env": {
         "SLACK_BOT_TOKEN": "xoxb-your-token-here",
-        "SLACK_DEFAULT_CHANNEL": "#general"
+        "SLACK_DEFAULT_CHANNEL": "#general",
+        "SLACK_MENTIONS": "U1234567890,U0987654321"
       }
     }
   }
@@ -84,7 +86,7 @@ Add to your Claude Desktop configuration:
 You can add this MCP server to Claude Code using the following command:
 
 ```bash
-claude mcp add slack-notify -e SLACK_BOT_TOKEN=xoxb-your-token-here -e SLACK_DEFAULT_CHANNEL=#general -- npx -y @mkusaka/mcp-server-slack-notify@latest
+claude mcp add slack-notify -e SLACK_BOT_TOKEN=xoxb-your-token-here -e SLACK_DEFAULT_CHANNEL=#general -e SLACK_MENTIONS=U1234567890,U0987654321 -- npx -y @mkusaka/mcp-server-slack-notify@latest
 ```
 
 Or if you have the package installed globally:
@@ -94,13 +96,13 @@ Or if you have the package installed globally:
 npm install -g @mkusaka/mcp-server-slack-notify
 
 # Then add to Claude Code
-claude mcp add slack-notify -e SLACK_BOT_TOKEN=xoxb-your-token-here -e SLACK_DEFAULT_CHANNEL=#general -- mcp-server-slack-notify
+claude mcp add slack-notify -e SLACK_BOT_TOKEN=xoxb-your-token-here -e SLACK_DEFAULT_CHANNEL=#general -e SLACK_MENTIONS=U1234567890,U0987654321 -- mcp-server-slack-notify
 ```
 
 To add with user scope (available across all projects):
 
 ```bash
-claude mcp add --scope user slack-notify -e SLACK_BOT_TOKEN=xoxb-your-token-here -e SLACK_DEFAULT_CHANNEL=#general -- npx -y @mkusaka/mcp-server-slack-notify@latest
+claude mcp add --scope user slack-notify -e SLACK_BOT_TOKEN=xoxb-your-token-here -e SLACK_DEFAULT_CHANNEL=#general -e SLACK_MENTIONS=U1234567890,U0987654321 -- npx -y @mkusaka/mcp-server-slack-notify@latest
 ```
 
 ## Available Tools
@@ -125,7 +127,7 @@ The description field supports Slack's mrkdwn formatting:
   - @here: `<!here>`
   - @channel: `<!channel>`
   - User groups: `<!subteam^S1234567890>` (use the subteam's ID)
-  - **Note:** When using the `mention` parameter, user mentions are automatically added at the beginning of the message
+  - **Note:** When using the `mention` parameter or `SLACK_MENTIONS` environment variable, user mentions are automatically added at the beginning of the message
 - **Text formatting:**
   - Bold: `*bold text*`
   - Italic: `_italic text_`

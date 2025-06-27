@@ -5,6 +5,7 @@ import { logger } from "./logger.js";
 export interface SlackClientConfig {
   token: string;
   defaultChannel?: string;
+  mentions?: string;
 }
 
 export interface SlackMessage {
@@ -17,10 +18,12 @@ export interface SlackMessage {
 export class SlackClient {
   private client: WebClient;
   private defaultChannel?: string;
+  private defaultMentions?: string;
 
   constructor(config: SlackClientConfig) {
     this.client = new WebClient(config.token);
     this.defaultChannel = config.defaultChannel;
+    this.defaultMentions = config.mentions;
   }
 
   async sendMessage(message: SlackMessage): Promise<string> {
@@ -38,8 +41,9 @@ export class SlackClient {
 
       // Process mentions
       let messageText = message.description;
-      if (message.mention) {
-        const userIds = message.mention.split(',').map(id => id.trim());
+      const mentionsToUse = message.mention || this.defaultMentions;
+      if (mentionsToUse) {
+        const userIds = mentionsToUse.split(',').map(id => id.trim());
         const mentions = userIds.map(id => `<@${id}>`).join(' ');
         messageText = `${mentions} ${message.description}`;
       }
