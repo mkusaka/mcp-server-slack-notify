@@ -5,6 +5,7 @@ MCP server for sending notifications to Slack using OAuth bot tokens.
 ## Features
 
 - Send formatted messages to Slack channels with title and description
+- Mention specific users automatically with the mention parameter
 - Support for Slack's markdown formatting
 - Clean message formatting with optional header
 - TypeScript support with full type safety
@@ -88,6 +89,7 @@ Parameters:
 - `channel` (optional): The Slack channel (e.g., #general or C1234567890)
 - `title` (optional): The notification title (if provided, displays with header formatting)
 - `description` (required): The notification body (supports Slack markdown)
+- `mention` (optional): User ID(s) to mention. Can be a single user ID (e.g., U1234567890) or multiple IDs separated by commas (e.g., U1234567890,U0987654321)
 
 ### Formatting Guide
 
@@ -99,6 +101,7 @@ The description field supports Slack's mrkdwn formatting:
   - @here: `<!here>`
   - @channel: `<!channel>`
   - User groups: `<!subteam^S1234567890>` (use the subteam's ID)
+  - **Note:** When using the `mention` parameter, user mentions are automatically added at the beginning of the message
 - **Text formatting:**
   - Bold: `*bold text*`
   - Italic: `_italic text_`
