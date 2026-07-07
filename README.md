@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/mkusaka-mcp-server-slack-notify-badge.png)](https://mseep.ai/app/mkusaka-mcp-server-slack-notify)
+
 # @mkusaka/mcp-server-slack-notify
 
 MCP server for sending notifications to Slack using OAuth bot tokens.
